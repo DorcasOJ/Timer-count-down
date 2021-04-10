@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Health Info</title>
+
+    <link rel='stylesheet' href="{{ url_for('static', filename='css/time.css')}}" rel="stylesheet" type="text/css">    
+    <script src="https://use.fontawesome.com/releases/v5.15.2/js/all.js"></script>
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
+    <script type="text/javascript"> $SCRIPT_ROOT = {{ request.script_root|tojson|safe }}; </script>
+    </head>
+    <body>
+
+        <div class= 'page'>
+            <div class= 'top'>
+             
+                <input class="toprow inpt" type='text' id= 'mins', value =1>
+                <span>Minute</span>
+                
+                <button class=" toprow start" onclick = 'startCount()'>Start</button>
+               
+                <button class= " toprow stop" onclick= 'endcount()'>Stop</button>
+               
+            </div>
+
+            <div class = 'down'>
+
+                <div class="toggle">
+                   
+                    <i onclick="moveUp()" class="fas fa-angle-double-up"></i> 
+                    <i onclick="moveDown()" class="fas fa-angle-double-down"></i> 
+                    <div class="hello"></div>
+                </div>
+
+                <div class= 'half1'>
+                    Time's up
+                </div>
+                
+                <div class= 'half2'>
+                    
+                    <div class = 'timer'>
+                        <div class = 'timeit'>
+                            <span id = 'minute'></span>m : <span id= 'second'></span>s
+                        </div>
+                    </div>
+                </div>
+            <div>
+        </div>
+
+        <script>
+            var $input = $('input');
+            $(document).on('keydown', function (event) {
+
+                //up-arrow (regular and num-pad)
+                if (event.which == 38 || event.which == 104) {
+                    
+                    $input.val((parseInt($input.val()) + 1));
+
+                //down-arrow (regular and num-pad)
+                } else if (event.which == 40 || event.which == 98) {
+                    $input.val((parseInt($input.val()) - 1));
+                } else if (event.keyCode === 13) {
+                    event.preventDefault();
+                    //startt = document.querySelector('.start');
+                    //stopp = document.querySelector('.stop');
+                    if ($('.stop').css('display') === 'none'){
+                        startCount();
+                    } else if ($('.start').css('display') === 'none') {
+                        endcount();
+                    }
+                }
+            });
+
+
+
+        </script>
+
+        <script>
+           function moveUp() {
+                var up = document.querySelector('.fa-angle-double-up')
+                var dow = document.querySelector('.fa-angle-double-down')
+                var dd = document.querySelector('.down')
+                var tt = document.querySelector('.top')
+                var half11 = document.querySelector('.half1')
+                var half22 = document.querySelector('.half2')
+                var tim = document.querySelector('.timer')
+               
+
+                up.style.display = 'none';
+                dow.style.display ='block';
+
+                tt.style.display = 'none';
+                dd.style.height = '100vh';
+               
+                half11.style.paddingTop = '3rem';
+                half22.style.paddingTop = '3rem';
+
+                tim.style.font = '4rem'
+            }
+
+            function moveDown() {
+                var up = document.querySelector('.fa-angle-double-up')
+                var dow = document.querySelector('.fa-angle-double-down')
+                var dd = document.querySelector('.down')
+                var tt = document.querySelector('.top')
+
+                up.style.display = 'block';
+                dow.style.display ='none';
+
+                tt.style.display = 'flex';
+                dd.style.height = '80vh';
+
+                tim.style.font = '6rem'
+            }
+        </script>
+            
+        <script>
+           
+           function endcount() {
+               location.reload()
+           }
+            
+            
+            function startCount() {
+                var startt = document.querySelector('.start')
+                var stopp = document.querySelector('.stop')
+               
+                startt.style.display = 'none'
+                stopp.style.display = 'block'
+
+                var Min = document.getElementById('mins').value
+                //var Sec = document.getElementById('secs').value
+                var minc = document.getElementById('minute');
+                var secc = document.getElementById('second');
+                var half11 = document.querySelector('.half1');
+                var timerr = document.querySelector('.timer')
+                
+                minc.innerHTML = Min
+                secc.innerHTML = 0
+                
+                var tell = Min * 60
+            
+                        
+                var time = tell,
+                start = Date.now(),
+                //minc = document.getElementById('minute'),
+                //secc = document.getElementById('second'),
+                timer;
+                
+                timer = setInterval( function countdown() {
+                    var timeleft = Math.max(0, time - (Date.now() - start) / 1000),
+                        m = Math.floor((timeleft /60 ) ),
+                        s = Math.floor(timeleft % 60);
+                    
+                    minc.firstChild.nodeValue = m;
+                    secc.firstChild.nodeValue = s;
+
+
+
+                    if (timeleft > 300 && timeleft < 600) {
+                        timerr.style.border = '5px solid #4834d4';
+                    }
+
+                    if (timeleft < 300 ) {
+                        timerr.style.border = '5px solid #fff200';
+                    }
+                    
+                    if( timeleft == 0) {
+                        
+                        clearInterval(timer);
+                        //Half1.style.display = 'block';
+                        half11.style.display = 'block';
+                        half11.style.color = '#ff3838';
+                        timerr.style.border = '5px solid #ff3838';
+
+                        var timeN = 1 * 60,
+                         startNeg = Date.now(),
+                         timeNeg;
+                      
+
+                        var timeNeg = setInterval (function negativeCountdown() {
+                            var timeneg = Math.max(0, ((Date.now() - startNeg) - timeN )/ 1000),
+                                m = Math.floor((timeneg / 60)),
+                                s = Math.floor(timeneg % 60);
+                            
+                                minc.firstChild.nodeValue = - m;
+                                secc.firstChild.nodeValue = - s;
+                        }, 200)
+                    };
+                        
+                }, 200);
+                
+                //timer = setInterval(countdown, 1000);
+
+            }
+
+            
+
+        </script>
+    </body>
+</html>

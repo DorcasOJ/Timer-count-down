@@ -1,0 +1,117 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    overflow: hidden;
+    text-align: center;
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+    background-color: #2d3436 ;
+    color: white;
+}
+
+.top {
+    height: 20vh;
+    text-align: center;
+    padding-top: 2rem; 
+    border-bottom: 1px solid #ccc;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.top span {
+    margin-left: 0.5rem;
+}
+
+.top button {
+    font-size: 2rem;
+    background: transparent;
+    color: white;
+    padding: 1rem 1rem;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.top .start {
+    border: 1px solid green;
+}
+
+.top .stop {
+    border: 1px solid #ff3838;
+    display: none;
+}
+
+input {
+    width: 6rem;
+    font-size: 2rem;
+}
+
+.toprow {
+    margin-left: 4rem;
+}
+
+.down {
+    width: 100%;
+    height: 80vh;
+    text-align: center;
+    font-size: 4rem;
+}
+
+.down .toggle {
+    font-size: 3rem;
+    width: 10%;
+    text-align: left;
+    float: left;
+}
+
+.toggle .fa-angle-double-up {
+    color: chartreuse;
+    margin-left: 0.5rem;
+    cursor: pointer;
+}
+
+.toggle .fa-angle-double-down {
+    color: #ff3838;
+    margin-left: 0.5rem;
+    cursor: pointer;
+    display: none;
+}
+
+.half2 {
+    width: 100%;
+    float: left;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1.5rem;
+    /*justify-content: center;*/
+}   
+
+.half1 {
+    padding-top: 1.5rem;
+    display: none;
+    text-transform: uppercase;
+}
+
+
+.timer {
+    height: 28rem;
+    width: 28rem;
+    border: 5px solid green;
+    border-radius: 50%;
+    font-size: 4rem;
+}
+
+.timeit {
+    margin-top: 10.7rem
+}
