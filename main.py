@@ -1,4 +1,5 @@
-from app.app import app
+from app.app import *
 
 if __name__ == "__main__":
-    app.run()
+    db.create_all()
+    app.run(debug=True, use_reloader=True)

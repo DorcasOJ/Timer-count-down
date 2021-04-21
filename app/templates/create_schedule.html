@@ -1,0 +1,260 @@
+{% extends 'base.html' %}
+{% block body %}
+    <style>
+      body{
+        text-align: center;
+        font-size: 1rem;
+        line-height: 1rem;
+        background: url('../static/images/darkHtml2.jpeg') center/cover;
+        color: white;
+        overflow: auto;
+      }
+
+      .pageAll {
+        background: rgba(75, 73, 73, 0.6);
+      }
+
+      h4 {
+        padding-top: 1rem;
+      }
+
+      .alert {
+        padding-bottom: 1rem;
+      }
+
+      .header {
+        width: 100%;
+      }
+
+      .header .back {
+        width: 10%;
+        float: left;
+      }
+
+      .header .addSch {
+        width: 10%;
+        float: right;
+      }
+
+      .header a{
+        text-decoration: none;
+        color: white;
+        cursor: pointer;
+      }
+
+      .header a:hover, .fa-trash:hover,
+        .fa-lock-open:hover, .fa-lock:hover,
+        .fa-eye-slash:hover, .fa-eye:hover {
+        color: rgba(150, 146, 146, 0.5);
+      }
+
+      input {
+        font-size: 1rem;
+        width: 12rem;
+        text-align: center;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      #titleid {
+        width: 14rem;
+      }
+
+      #defaultid {
+        width: 3rem;
+      }
+
+      /* checkbox style defaultid*/
+      .defaultidDiv input[type="checkbox"] {
+        filter: grayscale(1);
+      }
+
+      /* checkbox style defaultid end*/
+
+      #minid {
+        width: 4rem;
+      }
+
+      button {
+        margin-bottom: 1rem;
+      }
+
+      button, #submitId {
+        font-size: 1rem;
+        background: transparent;
+        color: #ccc;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 0.5rem 0.5rem;
+        cursor: pointer;
+      }
+
+      button:hover, #submitId:hover {
+        border: 1px solid rgba(90, 88, 88, 0.3);
+      }
+
+      button:active, #submitId:active {
+        background-color: rgba(90, 88, 88, 0.3);
+        border: 1px solid #ccc;
+      }
+
+    </style>
+
+    <div class="all">
+
+      
+      <div class="pageAll">
+
+        <div class="header">
+          <div class="back">
+              <a href="{{ url_for('home_page') }}">Back</a>
+          </div>
+
+          <div class="addSch"> 
+              <a href="{{ url_for('show_db') }}"><i class="fas fa-shield-alt"></i></a>
+          </div>
+        </div>
+
+        <h4> Add Schedule </h4>
+
+        {%- for category, message in get_flashed_messages(with_categories = true) %} 
+          <div class="alert alert-danger" data-text = '{{ message }}'>
+            {{ message }}
+          </div>
+        {%- endfor %}
+
+        <form id ='formId' action="{{ request.path }}" method = 'post'>
+          <label for ='title'>Title</label>
+          <input type="text" id="titleid" name = 'title',placeholder="SundayService"/><br/>
+
+          <div class="defaultidDiv">
+            <label for="default">Default</label>
+            <input type="checkbox" id = 'defaultid' name = 'default' value="True"/><br/>
+          </div>
+        
+          <input type="number" id="minid" name= 'min', placeholder="5"/><span>min</span>
+          <input type="text" id="nameid" name ='name', placeholder="Prayer"/><br/>
+
+          <div id ='submitdiv'>
+            <input type="submit" id = 'submitId' value="Save"/>
+          </div>
+        </form>
+        <div id="alreadyExist" data-text=''></div>
+        <button id = 'addNew' >Add New</button>
+        <button id = 'removeNew' >Remove New</button>
+
+        <script>
+
+          window.onbeforeunload = function() {
+            return "Dude, are you sure you want to leave? Think of the kittens!";
+          };
+
+          //flash messages red and green
+          var flash = document.querySelector('.alert')
+          var flash_msg = flash.getAttribute('data-text')
+          
+          if (flash_msg == 'Please enter all the fields') {
+            flash.style.color = 'red';
+          }
+          else {
+            flash.style.color = 'green';
+          }
+
+          $("#submitId").submit(function(e) {
+            e.preventDefault();
+        });
+
+          //onsubmit="return false"
+          var titles = [];
+          {% for row in all_title %}
+            titles.push('{{ row.title }}')
+          {% endfor %}
+
+          console.log(titles)
+
+          const textBlock = document.getElementById('alreadyExist')
+          const textInput = document.getElementById('titleid');
+          const submit = document.getElementById('submitdiv');
+          
+          textInput.addEventListener('input', () => {
+            textBlock.setAttribute('data-text', textInput.value)
+            var val = textBlock.getAttribute('data-text')
+            if (titles.includes(val)) {
+              textBlock.innerHTML = 'Title Already Exist'
+              submit.style.display = 'none';
+            }
+            else {
+              textBlock.innerHTML = ''
+              submit.style.display = 'block';
+            };
+
+          
+          })
+
+        </script>
+
+        <script>
+
+          var count =0
+
+          $("#addNew").click(function(){
+              count++
+              //$("#submitId").before("<div>");
+              $("#submitdiv").before("<input type='number' id='minid' name= min"+ count + " >");
+              $("#submitdiv").before("<span>min </span>");
+              $("#submitdiv").before("<input type='text' id='nameid' name= name"+ count + " >");
+              $("#submitdiv").before("<br/>");
+              //$("#submitId").before("</div>");
+          });
+
+          $('#removeNew').click(function() {
+            var idMin = document.querySelectorAll('#minid')
+            var idName = document.querySelectorAll('#nameid')
+            var spanN = document.querySelectorAll('span')
+            var brk = document.querySelectorAll('br')
+            var inp_length = idMin.length
+            //idMin.remove(1); //.parentNode.removeChild(idMin[inp_length])
+            if (inp_length != 1){
+              brk[inp_length].parentNode.removeChild(brk[inp_length]);
+              idName[inp_length-1].parentNode.removeChild(idName[inp_length-1]);
+              spanN[inp_length-1].parentNode.removeChild(spanN[inp_length-1]);
+              idMin[inp_length-1].parentNode.removeChild(idMin[inp_length-1]);
+            }
+          
+            idMin[inp_length-1].style.marginTop = '0';
+            idMin[inp_length-1].style.marginBottom = '0';
+            idName[inp_length-1].style.marginTop = '0';
+            idName[inp_length-1].style.marginBottom = '0';
+
+            //var divForm = document.getElementById('formDiv')
+            //var div_length = divForm.length
+            //console.log(div_length);
+            //console.log(divForm)
+            //divForm.remove(div_length);
+          })
+
+          
+          //onclick="addInput()"
+          function addInput() {
+            count++;
+            var form_id = document.getElementById('formId');
+            
+            var input = document.createElement('input');
+            input.type = 'text';
+            input.id = 'minid';
+            input.name = 'min'+ count;
+            form_id.appendChild(input)
+            form_id.appendChild(document.createTextNode('min'))
+
+            var input = document.createElement('input');
+            input.type = 'text';
+            input.id = 'nameid';
+            input.name = 'name'+ count;
+            form_id.appendChild(input);
+            form_id.appendChild(document.createElement('br'));
+          }
+
+        </script>
+      </div>
+    </div>
+{% endblock %}

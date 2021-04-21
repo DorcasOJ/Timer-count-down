@@ -1,0 +1,313 @@
+{% extends 'base.html' %}
+{% block body %}
+    <style>
+        body{
+            text-align: center;
+            font-size: 1.2rem;
+            background: url('../static/images/darkHtml2.jpeg') center/cover;
+            color: white;
+            overflow: auto;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .pageAll {
+            background: rgba(75, 73, 73, 0.6);
+        }
+
+        h4 {
+            padding-top: 1rem;
+        }
+
+        .header {
+            width: 100%;
+        }
+
+        .header .back {
+            width: 10%;
+            float: left;
+        }
+
+        .header .addSch {
+            width: 10%;
+            float: right;
+        }
+
+        .header a, h4 a{
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .header a:hover, .fa-trash:hover,
+         .fa-lock-open:hover, .fa-lock:hover,
+          .fa-eye-slash:hover, .fa-eye:hover, h4 a:hover {
+            color: rgba(150, 146, 146, 0.5);
+        }
+
+        table {
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1rem;
+            width: 45%;
+            height: 20px;
+            position: relative;
+        }
+
+       table, tr, thead, tbody {
+            border: 1px solid black;
+        }
+
+        .tableTitle {
+            margin-top: 2rem;
+        }
+
+        .tableall {
+            display: none;
+        }
+
+        .titlediv{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        
+        .titletitle, .titlesee, .titleseenot, .titledef, .titledefnot, .titleid {
+            text-align: center;
+            float: left;
+        }
+
+        .titlesee, .titleseenot, .titledef, .titledefnot, .titleid {
+            width: 7%;
+        }
+
+        .titletitle {
+            width: 27%;
+        }
+
+        .fa-eye, .fa-eye-slash, .fa-lock, .fa-lock-open,
+        .titlesee, .titleseenot, .titledef, .titledefnot {
+            cursor: pointer;
+        }
+
+        .titlesee, .titledef {
+            display: none;
+        }
+     
+    </style>
+ 
+
+    <div class="pageAll">
+
+        {%- for category, message in get_flashed_messages(with_categories = true) %} 
+          <div class="alert alert-danger" data-text = '{{ message }}'>
+            {{ message }}
+          </div>
+        {%- endfor %}
+        
+        <div class="header">
+            <div class="back">
+                <a href="{{ url_for('home_page') }}">Back</a>
+            </div>
+
+            <div class="addSch"> 
+                <a href="{{ url_for('create_new_db') }}"><i class="fas fa-plus"></i></a>
+            </div>
+        </div>
+        
+        <h4><a href = '{{ url_for('show_db') }}'> All Schedule </a></h4>
+        <div class="tableTitle">
+            {% for row in all_title %}
+                <div class="titlediv">
+                    <div class="titletitle" id = '{{ row.id }}title' data-text="{{ row.title }}">{{ row.title }}</div>
+                    <div class="titlesee" id="{{ row.id }}eye"><i onclick="closeEye({{ row.id }})" class="far fa-eye"></i></div>
+                    <div class="titleseenot" id="{{ row.id }}slash"><i onclick="openEye({{ row.id }})" class="far fa-eye-slash"></i></div>
+                    <div class="titledef" id="{{ row.id }}lock"><i onclick="openLock({{ row.id }})" class="fas fa-lock"></i></div>
+                    <div class="titledefnot" id="{{ row.id }}open"><i onclick="closeLock({{ row.id }})" class="fas fa-lock-open"></i> </div>
+                    <div class="titledefnot" id="{{ row.id }}open"><i onclick="deleteSch({{ row.id }})" class="fas fa-trash"></i> </div>
+                </div>
+
+                <script>
+                    var all_title = document.querySelectorAll('.titletitle');
+                    for(var i =0; i < all_title.length; i++) {
+                        var data = all_title[i].getAttribute('data-text')
+                        if (data.length > 20 ) {
+                            all_title[i].innerHTML =  data.slice(0, 20) + '...'
+                        };
+                    };
+
+                    var openl = document.getElementById('{{ row.id }}'+ 'open' );
+                    var lock = document.getElementById('{{ row.id }}' + 'lock');
+                    
+                    if ('{{ row.default }}' == 'True') {
+                        lock.style.display = 'block';
+                        openl.style.display = 'none';
+                    }else{
+                        lock.style.display = 'none';
+                        openl.style.display = 'block';
+                    }
+
+                </script>
+
+                <div class="tableall" id = '{{row.id}}table'>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Minutes</th>
+                            </tr>
+                        </thead>
+                
+                        <tbody>
+                            {% for table in all_table %}
+                                {% if table.title == row.title %}
+                                    <tr>
+                                        <td class="table-data" data-text="{{ table.name }}"> {{ table.name }} </td>
+                                        <td> {{ table.mins }} </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <script>
+                        //short name to 15 letters
+                        var table_data = document.querySelectorAll('.table-data');
+                        for (var i=0; i < table_data.length; i++) {
+                            var datar = table_data[i].getAttribute('data-text');
+                            if (datar.length > 15) {
+                                table_data[i].innerHTML = datar.slice(0, 15) + '...'
+                            }
+                        };
+                    </script>
+
+                </div>
+            {% endfor %}
+        </div>
+
+        <script>
+        // {% for row in all_title %}
+        //     var openl = document.getElementById('{{ row.id }}'+ 'open' );
+        //     var lock = document.getElementById('{{ row.id }}' + 'lock');
+    
+        //     {% if row.default == 'True' %}         
+        //         lock.style.display = 'block';
+        //         openl.style.display = 'none';
+        //     {% else %}
+        //         lock.style.display = 'none';
+        //         openl.style.display = 'block';
+        //     {% endif %}
+        // {% endfor %}
+        </script>
+
+        <script>
+            var titles = [];
+            var titlesid = []
+            {% for row in all_title %}
+                titles.push('{{ row.title }}')
+                titlesid.push({{ row.id }})
+            {% endfor %}
+
+            function delete_dup(array, idArray) {
+                const count ={}
+                const result =[]
+
+                array.forEach(item => {
+                    if (count[item]) {
+                        count[item] +=1
+                        return
+                    }
+                    count[item] = 1
+                });
+               // console.log(count)
+
+                for(let prop in count) {
+                    v = count[prop]
+                    if (v >1) {
+                        //result.push(prop)
+                        for (var i=0; i < v-1; i++) {
+                            id = idArray[array.indexOf(prop)]
+                            deleteSch(id)
+                        }
+                    }
+                };
+
+            }
+
+            function closeEye(id) { 
+                var eye = document.getElementById(String(id)+ 'eye' );
+                var slash = document.getElementById(String(id) + 'slash');
+                var tab = document.getElementById(String(id)+ 'table')
+
+                eye.style.display = 'none';
+                slash.style.display = 'block';
+                tab.style.display = 'none';
+            }
+
+            function openEye(id){
+                var eye = document.getElementById(String(id)+ 'eye' );
+                var slash = document.getElementById(String(id) + 'slash');
+                var tab = document.getElementById(String(id)+ 'table')
+
+                eye.style.display = 'block';
+                slash.style.display = 'none';
+                tab.style.display = 'block';
+            }
+
+            function closeLock(id) {
+                var openl = document.getElementById(String(id)+ 'open' );
+                var lock = document.getElementById(String(id) + 'lock');
+                var titl = document.getElementById(String(id)+'title').getAttribute('data-text');
+            
+                openl.style.display = 'none';
+                lock.style.display = 'block';
+                //make default
+                
+                $.ajax({
+                    url: '/make_default_true',
+                    type: 'POST',
+                    data: {'def_var_key': titl},
+                    success: function(){
+                        location.reload()
+                    }
+                })
+            }
+
+            function openLock(id) {
+                var openl = document.getElementById(String(id)+ 'open' );
+                var lock = document.getElementById(String(id) + 'lock');
+                var titl = document.getElementById(String(id)+'title').getAttribute('data-text');;
+            
+                openl.style.display = 'block';
+                lock.style.display = 'none';
+
+                $.ajax({
+                    url: '/make_default_false',
+                    type: 'POST',
+                    data: {'def_var_false_key': titl},
+                    success: function(){
+                        location.reload()
+                    }
+                })
+            }
+
+            function deleteSch(id){
+                var titl = document.getElementById(String(id)+'title').getAttribute('data-text');;
+            
+                $.ajax({
+                    url: '/deleteSchd',
+                    type: 'POST',
+                    data: {'del_var_key': titl},
+                    success: function(){
+                        location.reload()
+                    }
+                })
+            }
+
+            delete_dup(titles, titlesid)
+
+        </script>
+    </div>
+{% endblock %}
