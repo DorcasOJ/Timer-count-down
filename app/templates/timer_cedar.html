@@ -413,7 +413,8 @@
         for (var i=0; i < label_data.length; i++) {
             var datar = label_data[i].getAttribute('data-text');
             if (datar.length > 15) {
-                label_data[i].innerHTML = datar.slice(0, 15) + '...'
+                var datarr = label_data[i].innerText
+                label_data[i].innerHTML = datarr.slice(0, 15) + '...'
             }
         };
 
@@ -597,7 +598,7 @@
             if (window.getComputedStyle(half11).display !== 'none') {
                 tim.style.fontSize = '6.5rem';
             } else {
-                tim.style.fontSize = '7.2rem';
+                tim.style.fontSize = '7rem';
             }
             //tim.style.fontSize = '7.2rem';
 
