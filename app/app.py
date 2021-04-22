@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 #'sqlite:///db.sqlite3' 
 #app.config.from_pyfile('hello.cfg')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://cbvmzdqpbemlff:0a6b5ba7b9bd3e1108649e1198849f1209c12f157b07fe713b466ecf5cc44ed9@ec2-54-224-120-186.compute-1.amazonaws.com:5432/ddn9ubjhtfsnq5' #'sqlite:///db.sqlite3' os.environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL?sslmode=require').replace('postgres://', 'postgresgq://') #'sqlite:///db.sqlite3' os.environ.get('DATABASE_URL')
 app.config['SECRET_KEY'] = 'random_number' #os.environ.get('SECRET_KEY')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
