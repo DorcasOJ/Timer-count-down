@@ -4,7 +4,8 @@ import numpy as np
 #from database import *
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URL'] = 'sqlite:///schedule.db'
+'sqlite:///db.sqlite3' 
+app.config['SQLALCHEMY_DATABASE_URL'] = environ.get('DATABASE_URL')
 app.config['SECRET_KEY'] = 'random_number'
 db = SQLAlchemy(app)
 
