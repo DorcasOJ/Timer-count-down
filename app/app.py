@@ -1,12 +1,14 @@
 from flask import Flask, request, render_template, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import numpy as np
+import os
 #from database import *
 
 app = Flask(__name__)
-'sqlite:///db.sqlite3' 
-app.config['SQLALCHEMY_DATABASE_URL'] = 'postgres://cbvmzdqpbemlff:0a6b5ba7b9bd3e1108649e1198849f1209c12f157b07fe713b466ecf5cc44ed9@ec2-54-224-120-186.compute-1.amazonaws.com:5432/ddn9ubjhtfsnq5'
-app.config['SECRET_KEY'] = 'random_number'
+#'sqlite:///db.sqlite3' 
+#app.config.from_pyfile('hello.cfg')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 db = SQLAlchemy(app)
 
 class Sch_table(db.Model):
