@@ -2,10 +2,10 @@ from flask import Flask, request, render_template, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import numpy as np
 import os
-#from database import *
+
 
 app = Flask(__name__)
-#'sqlite:///db.sqlite3' 
+# 'sqlite:///db.sqlite3'
 #app.config.from_pyfile('hello.cfg')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://chsvcumebyzuwq:0e0f78fe4f142f4454999e753f5ba9877118314767a86901f9903baa6363208f@ec2-54-87-112-29.compute-1.amazonaws.com:5432/d75og76s42qst1' #'sqlite:///db.sqlite3' os.environ.get('DATABASE_URL')
 app.config['SECRET_KEY'] = 'random_number' #os.environ.get('SECRET_KEY')
@@ -133,7 +133,7 @@ def create_new_db():
             if sch == 'added':
                 flash('New Schedule successfully added')
         
-            #return redirect(url_for('show_db'))
+            return redirect(url_for('show_db'))
     all_table, all_title = get_all()
     return render_template('create_schedule.html', all_title = all_title)
 

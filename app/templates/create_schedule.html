@@ -146,7 +146,7 @@
         <script>
 
           window.onbeforeunload = function() {
-            return "Dude, are you sure you want to leave? Think of the kittens!";
+            return "Are you sure you want to leave?";
           };
 
           //flash messages red and green
@@ -160,11 +160,17 @@
             flash.style.color = 'green';
           }
 
-          $("#submitId").submit(function(e) {
-            e.preventDefault();
-        });
+          //$("#submitId").click(function() {
+          //    window.location = '{{ url_for('home_page') }}'
+          //    console.log('an Here')
+          //});         
+
+          //$("#submitId").submit(function(e) {
+          //    e.preventDefault();
+          //});
 
           //onsubmit="return false"
+
           var titles = [];
           {% for row in all_title %}
             titles.push('{{ row.title }}')
