@@ -14,8 +14,8 @@ db = SQLAlchemy(app)
 
 class Sch_table(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    title = db.Column(db.String(20))
-    name = db.Column(db.String(20))
+    title = db.Column(db.String)
+    name = db.Column(db.String)
     mins = db.Column(db.Integer)
     default = db.Column(db.Boolean)
     #unique=True, nullable=False
