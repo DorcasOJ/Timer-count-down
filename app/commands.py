@@ -11,3 +11,4 @@ def create_tables():
     db.create_all()
     print('Database created')
 
+#app.cli.add_command('create_tables')
