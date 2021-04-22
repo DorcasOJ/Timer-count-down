@@ -5,7 +5,7 @@ import numpy as np
 
 app = Flask(__name__)
 'sqlite:///db.sqlite3' 
-app.config['SQLALCHEMY_DATABASE_URL'] = environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URL'] = 'postgres://cbvmzdqpbemlff:0a6b5ba7b9bd3e1108649e1198849f1209c12f157b07fe713b466ecf5cc44ed9@ec2-54-224-120-186.compute-1.amazonaws.com:5432/ddn9ubjhtfsnq5'
 app.config['SECRET_KEY'] = 'random_number'
 db = SQLAlchemy(app)
 
