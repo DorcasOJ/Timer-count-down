@@ -217,7 +217,7 @@
         .topSch .topSchrgt span{
             cursor: pointer;
             font-size: 1.2rem;
-            margin-right: 0.8rem;
+            margin-right: 1rem;
             margin-bottom: 0.3rem;
         }
 
@@ -311,8 +311,8 @@
             /*border-bottom: 1px dashed white ;
             box-shadow: 0.1px 3px #ccc ;
             border-radius: 50%;
-            height: 28rem; 7rem*/
-            font-size: 19vh;
+            height: 28rem; 19vh*/
+            font-size: 7rem;
             font-weight: 230;
         }
 
@@ -593,8 +593,12 @@
             
             half11.style.paddingTop = '1.5rem';
             //half22.style.paddingTop = '3rem';
-
-            tim.style.fontSize = '19vh';
+            if (window.getComputedStyle(half11).display !== 'none') {
+                tim.style.fontSize = '6.5rem';
+            } else {
+                tim.style.fontSize = '7.2rem';
+            }
+            //tim.style.fontSize = '7.2rem';
 
             showDown.style.top = '35%';
         }
@@ -619,9 +623,9 @@
            
             // if time's up reducr tim to 5 rem
             if (window.getComputedStyle(half11).display === 'none') {
-                tim.style.fontSize = '19vh';
+                tim.style.fontSize = '7rem';
             } else {
-                tim.style.fontSize = '15vh';
+                tim.style.fontSize = '5rem';
             }
         }
     </script>
@@ -712,7 +716,7 @@
                     half11.style.color = '#ff3838';
                     timerr.style.borderBottom = 'none';
                     timerr.style.borderTop = '5px solid #ff3838';
-                    tim.style.fontSize = '15vh';
+                    tim.style.fontSize = '5rem';
                     if (style) {
                         labelId.style.backgroundColor = '#ff3838';
                         labelId.style.borderColor = '#ff3838';
