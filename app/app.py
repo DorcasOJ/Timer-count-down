@@ -40,7 +40,7 @@ class Sch_titles(db.Model):
 def create(all_keys):
     if 'default' in all_keys:
         for key in range(0, len(all_keys[2:]), 2):
-            title, default, mins, name = all_keys[0].replace(' ', '_'), all_keys[1], all_keys[2:][key].replace(' ', '_'), all_keys[2:][key+1]..replace(' ', '_') 
+            title, default, mins, name = all_keys[0].replace(' ', '_'), all_keys[1], all_keys[2:][key].replace(' ', '_'), all_keys[2:][key+1].replace(' ', '_') 
             #sch = create(request.form['title'], request.form[name], request.form[minute
             #if request.form[default] == 'True':
             table = Sch_table(request.form[title], request.form[name], request.form[mins], True)
