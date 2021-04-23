@@ -155,6 +155,8 @@
           
           if (flash_msg == 'Please enter all the fields') {
             flash.style.color = 'red';
+          } else if (flash_msg == 'Ensure characters are less than 200') {
+            flash.style.color = 'red'
           }
           else {
             flash.style.color = 'green';
