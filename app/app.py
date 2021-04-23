@@ -128,7 +128,11 @@ def create_new_db():
                 proceed = False
                 flash('Please enter all the fields', 'error')
                 break
-
+            elif len(request.form[key]) > 200:
+                proceed = False
+                flash('Ensure characters are less than 200', 'error')
+                break
+            
         if proceed:
             sch = create(all_keys)
             if sch == 'added':
