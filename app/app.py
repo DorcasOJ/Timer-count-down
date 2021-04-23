@@ -7,7 +7,8 @@ import os
 app = Flask(__name__)
 #'sqlite:///db.sqlite3'
 #app.config.from_pyfile('hello.cfg')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://chsvcumebyzuwq:0e0f78fe4f142f4454999e753f5ba9877118314767a86901f9903baa6363208f@ec2-54-87-112-29.compute-1.amazonaws.com:5432/d75og76s42qst1' #'sqlite:///db.sqlite3' os.environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://zuhnzdyedvtpai:2b8f00623c761ffcd03a2bf5d88c8d1013195312dee723e32fd39571304dad53@ec2-3-217-219-146.compute-1.amazonaws.com:5432/da3rkd2mmij9a7'
+#'sqlite:///db.sqlite3' os.environ.get('DATABASE_URL')
 app.config['SECRET_KEY'] = 'random_number' #os.environ.get('SECRET_KEY')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -29,7 +30,7 @@ class Sch_table(db.Model):
 
 class Sch_titles(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    title = db.Column(db.String(20), )
+    title = db.Column(db.String(200), )
     default = db.Column(db.Boolean)
     #db.UniqueConstraint(title)
 
@@ -40,7 +41,7 @@ class Sch_titles(db.Model):
 def create(all_keys):
     if 'default' in all_keys:
         for key in range(0, len(all_keys[2:]), 2):
-            title, default, mins, name = all_keys[0].replace(' ', '_'), all_keys[1], all_keys[2:][key].replace(' ', '_'), all_keys[2:][key+1].replace(' ', '_') 
+            title, default, mins, name = all_keys[0], all_keys[1], all_keys[2:][key], all_keys[2:][key+1] 
             #sch = create(request.form['title'], request.form[name], request.form[minute
             #if request.form[default] == 'True':
             table = Sch_table(request.form[title], request.form[name], request.form[mins], True)
